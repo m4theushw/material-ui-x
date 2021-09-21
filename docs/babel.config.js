@@ -17,8 +17,8 @@ const alias = {
   '@mui/x-license-pro': '../packages/x-license/src',
   '@mui/docs': '../node_modules/@material-ui/monorepo/packages/mui-docs/src',
   '@mui/markdown': '../node_modules/@material-ui/monorepo/docs/packages/markdown',
-  '@material-ui/monorepo': '../node_modules/@material-ui/monorepo',
-  docs: '../node_modules/@material-ui/monorepo/docs', // TODO remove
+  '@material-ui/monorepo': './node_modules/@material-ui/monorepo',
+  docs: './node_modules/@material-ui/monorepo/docs', // TODO remove
   docsx: './',
 };
 
