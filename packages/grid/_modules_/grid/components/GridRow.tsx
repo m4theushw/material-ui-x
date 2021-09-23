@@ -17,6 +17,7 @@ export interface GridRowProps {
   selected: boolean;
   rowIndex: number;
   children: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 type OwnerState = GridRowProps & {
@@ -36,7 +37,7 @@ const useUtilityClasses = (ownerState: OwnerState) => {
 };
 
 function GridRow(props: GridRowProps) {
-  const { selected, id, rowIndex, children } = props;
+  const { selected, id, rowIndex, children, style: styleProp } = props; // TODO apply the rest of the props to the root
   const ariaRowIndex = rowIndex + 2; // 1 for the header row and 1 as it's 1 based
   const apiRef = useGridApiContext();
   const rootProps = useGridRootProps();
@@ -88,6 +89,7 @@ function GridRow(props: GridRowProps) {
   const style = {
     maxHeight: rowHeight,
     minHeight: rowHeight,
+    ...styleProp,
   };
 
   const rowClassName =

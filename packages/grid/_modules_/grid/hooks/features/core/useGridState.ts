@@ -26,6 +26,7 @@ export const useGridState = (
       if (!ignoreSetState) {
         // We always assign it as we mutate rows for perf reason.
         apiRef.current.state = newState;
+        (window as any).state = newState;
 
         if (apiRef.current.publishEvent) {
           apiRef.current.publishEvent(GridEvents.stateChange, newState);

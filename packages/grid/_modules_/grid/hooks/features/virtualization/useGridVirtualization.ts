@@ -9,7 +9,7 @@ import {
 } from '../../../models/gridRenderContextProps';
 import { GridContainerProps } from '../../../models/gridContainerProps';
 import { isDeepEqual } from '../../../utils/utils';
-import { useEnhancedEffect } from '../../../utils/material-ui-utils';
+import { useEnhancedEffect, useEventCallback } from '../../../utils/material-ui-utils';
 import {
   gridColumnsMetaSelector,
   visibleGridColumnsSelector,
@@ -78,6 +78,8 @@ export const useGridVirtualization = (
   const renderedColRef = React.useRef<GridRenderColumnsProps | null>(null);
   const containerPropsRef = React.useRef<GridContainerProps | null>(null);
   const lastScrollLeftRef = React.useRef<number>(0);
+
+  const prevRenderContext = React.useRef<any>({ firstRowIndex: 0, lastRowIndex: 10 });
 
   const [scrollTo] = useGridScrollFn(apiRef, renderingZoneRef, colRef);
 
@@ -320,40 +322,83 @@ export const useGridVirtualization = (
     setRenderingState({ renderingZoneScroll: { left: 0, top: 0 } });
   }, [scrollTo, setRenderingState, windowRef]);
 
-  const handleScroll = React.useCallback(() => {
+  const handleScroll = useEventCallback(() => {
     if (props.disableVirtualization) {
       return;
     }
 
     // On iOS the inertia scrolling allows to return negative values.
-    if (windowRef.current!.scrollLeft < 0 || windowRef.current!.scrollTop < 0) {
-      return;
+    // if (windowRef.current!.scrollLeft < 0 || windowRef.current!.scrollTop < 0) {
+    //   return;
+    // }
+
+    const { scrollTop } = windowRef.current!;
+    const firstRowIndex = Math.floor(scrollTop / 36);
+    const buffer = 6;
+    const lastRowIndex = firstRowIndex + buffer;
+    const diff = Math.abs(firstRowIndex - prevRenderContext.current.firstRowIndex);
+
+    if (diff >= 3) {
+      const newIndexes = {
+        firstRowIndex,
+        lastRowIndex,
+        translateY: Math.max(firstRowIndex - buffer, 0) * 36,
+      };
+      setGridState((state) => ({
+        ...state,
+        rendering: {
+          ...state.rendering,
+          renderContext: {
+            firstColIdx: 0,
+            lastColIdx: 3,
+            firstRowIdx: firstRowIndex,
+            lastRowIdx: lastRowIndex,
+          },
+        },
+      }));
+      prevRenderContext.current = newIndexes;
+      apiRef.current.forceUpdate(apiRef.current.state);
+      scrollTo({ left: 0, top: -Math.max(firstRowIndex - buffer, 0) * 36 });
     }
 
-    if (apiRef.current.updateViewport) {
-      apiRef.current.updateViewport();
-    }
-  }, [props.disableVirtualization, windowRef, apiRef]);
+    // if (apiRef.current.updateViewport) {
+    //   apiRef.current.updateViewport();
+    // }
+  });
 
-  const getContainerPropsState = React.useCallback(
-    () => gridState.containerSizes,
-    [gridState.containerSizes],
-  );
+  // React.useEffect(() => {
+  //   setGridState((state) => ({
+  //     ...state,
+  //     rendering: {
+  //       ...state.rendering,
+  //       renderContext: {
+  //         firstColIdx: 0,
+  //         lastColIdx: 5,
+  //         firstRowIdx: Math.max(0 - 5, 0),
+  //         lastRowIdx: 5 + 5,
+  //       },
+  //     },
+  //   }));
+  // }, [setGridState]);
+
+  const getContainerPropsState = React.useCallback(() => gridState.containerSizes, [
+    gridState.containerSizes,
+  ]);
 
   const getRenderContextState = React.useCallback(() => {
     return gridState.rendering.renderContext || undefined;
   }, [gridState.rendering.renderContext]);
 
-  useEnhancedEffect(() => {
-    if (props.disableVirtualization) {
-      return;
-    }
+  // useEnhancedEffect(() => {
+  //   if (props.disableVirtualization) {
+  //     return;
+  //   }
 
-    if (renderingZoneRef && renderingZoneRef.current) {
-      logger.debug('applying scrollTop ', gridState.rendering.renderingZoneScroll.top);
-      scrollTo(gridState.rendering.renderingZoneScroll);
-    }
-  });
+  //   if (renderingZoneRef && renderingZoneRef.current) {
+  //     logger.debug('applying scrollTop ', gridState.rendering.renderingZoneScroll.top);
+  //     scrollTo(gridState.rendering.renderingZoneScroll);
+  //   }
+  // });
 
   const virtualApi: Partial<GridVirtualizationApi> = {
     getContainerPropsState,
@@ -362,44 +407,44 @@ export const useGridVirtualization = (
   };
   useGridApiMethod(apiRef, virtualApi, 'GridVirtualizationApi');
 
-  React.useEffect(() => {
-    if (
-      gridState.rendering.renderContext?.paginationCurrentPage !== paginationState.page &&
-      apiRef.current.updateViewport
-    ) {
-      logger.debug(`State paginationState.page changed to ${paginationState.page}. `);
-      apiRef.current.updateViewport(true);
-      resetScroll();
-    }
-  }, [
-    apiRef,
-    paginationState.page,
-    gridState.rendering.renderContext?.paginationCurrentPage,
-    logger,
-    resetScroll,
-  ]);
+  // React.useEffect(() => {
+  //   if (
+  //     gridState.rendering.renderContext?.paginationCurrentPage !== paginationState.page &&
+  //     apiRef.current.updateViewport
+  //   ) {
+  //     logger.debug(`State paginationState.page changed to ${paginationState.page}. `);
+  //     apiRef.current.updateViewport(true);
+  //     resetScroll();
+  //   }
+  // }, [
+  //   apiRef,
+  //   paginationState.page,
+  //   gridState.rendering.renderContext?.paginationCurrentPage,
+  //   logger,
+  //   resetScroll,
+  // ]);
 
-  React.useEffect(() => {
-    if (apiRef.current.updateViewport) {
-      logger.debug(`totalRowCount has changed to ${totalRowCount}, updating viewport.`);
-      apiRef.current.updateViewport(true);
-    }
-  }, [
-    logger,
-    totalRowCount,
-    gridState.viewportSizes,
-    gridState.scrollBar,
-    gridState.containerSizes,
-    apiRef,
-  ]);
+  // React.useEffect(() => {
+  //   if (apiRef.current.updateViewport) {
+  //     logger.debug(`totalRowCount has changed to ${totalRowCount}, updating viewport.`);
+  //     apiRef.current.updateViewport(true);
+  //   }
+  // }, [
+  //   logger,
+  //   totalRowCount,
+  //   gridState.viewportSizes,
+  //   gridState.scrollBar,
+  //   gridState.containerSizes,
+  //   apiRef,
+  // ]);
 
-  useNativeEventListener(apiRef, windowRef, 'scroll', handleScroll, { passive: true });
+  // useNativeEventListener(apiRef, windowRef, 'scroll', handleScroll, { passive: true });
 
   const resetRenderedColState = React.useCallback(() => {
     logger.debug('Clearing previous renderedColRef');
     renderedColRef.current = null;
   }, [logger, renderedColRef]);
 
-  useGridApiEventHandler(apiRef, GridEvents.columnsChange, resetRenderedColState);
-  useGridApiEventHandler(apiRef, GridEvents.debouncedResize, resetRenderedColState);
+  // useGridApiEventHandler(apiRef, GridEvents.columnsChange, resetRenderedColState);
+  // useGridApiEventHandler(apiRef, GridEvents.debouncedResize, resetRenderedColState);
 };

@@ -12,7 +12,7 @@ export interface InternalRenderingState {
 export const getInitialGridRenderingState = (): InternalRenderingState => {
   return {
     realScroll: { left: 0, top: 0 },
-    renderContext: null,
+    renderContext: { firstRowIdx: 0, lastRowIdx: 10 + 6, firstColIdx: 0, lastColIdx: 4 },
     renderingZoneScroll: { left: 0, top: 0 },
     virtualPage: 0,
     virtualRowsCount: 0,

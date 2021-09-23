@@ -6,11 +6,12 @@ import { ElementSize } from '../../models/elementSize';
 import { GridColumnsHeader } from '../columnHeaders/GridColumnHeaders';
 import { GridColumnsContainer } from '../containers/GridColumnsContainer';
 import { GridMainContainer } from '../containers/GridMainContainer';
-import { GridWindow } from '../containers/GridWindow';
+import { GridWindowContainer } from '../containers/GridWindowContainer';
 import { GridAutoSizer } from '../GridAutoSizer';
 import { GridViewport } from '../GridViewport';
 import { GridOverlays } from './GridOverlays';
 import { useGridRootProps } from '../../hooks/utils/useGridRootProps';
+import { GridVirtualizedContainer } from '../GridVirtualizedContainer';
 
 interface GridBodyProps {
   children?: React.ReactNode;
@@ -23,12 +24,10 @@ function GridBody(props: GridBodyProps) {
 
   const columnsHeaderRef = React.useRef<HTMLDivElement>(null);
   const columnsContainerRef = React.useRef<HTMLDivElement>(null);
-  const windowRef = React.useRef<HTMLDivElement>(null);
   const renderingZoneRef = React.useRef<HTMLDivElement>(null);
 
   apiRef.current.columnHeadersContainerElementRef = columnsContainerRef;
   apiRef.current.columnHeadersElementRef = columnsHeaderRef;
-  apiRef.current.windowRef = windowRef;
   apiRef.current.renderingZoneRef = renderingZoneRef;
 
   const handleResize = React.useCallback(
@@ -48,9 +47,9 @@ function GridBody(props: GridBodyProps) {
         onResize={handleResize}
       >
         {(size: any) => (
-          <GridWindow ref={windowRef} size={size}>
-            <GridViewport ref={renderingZoneRef} />
-          </GridWindow>
+          <GridWindowContainer size={size}>
+            <GridVirtualizedContainer style={{ width: '100%', height: '100%' }} />
+          </GridWindowContainer>
         )}
       </GridAutoSizer>
       {children}

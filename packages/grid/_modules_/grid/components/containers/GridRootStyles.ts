@@ -75,7 +75,7 @@ export const useStyles = makeStyles(
           display: 'flex',
           width: '100%',
           alignItems: 'center',
-          overflow: 'hidden',
+          // overflow: 'hidden',
         },
         [`& .${gridClasses.columnHeader}, & .${gridClasses.cell}`]: {
           WebkitTapHighlightColor: 'transparent',
@@ -105,17 +105,15 @@ export const useStyles = makeStyles(
           visibility: 'visible',
           width: 'auto',
         },
-        [`& .${gridClasses.columnHeader}:not(.${gridClasses['columnHeader--sorted']}) .${gridClasses.sortIcon}`]:
-          {
-            opacity: 0,
-            transition: theme.transitions.create(['opacity'], {
-              duration: theme.transitions.duration.shorter,
-            }),
-          },
-        [`& .${gridClasses.columnHeader}:not(.${gridClasses['columnHeader--sorted']}):hover .${gridClasses.sortIcon}`]:
-          {
-            opacity: 0.5,
-          },
+        [`& .${gridClasses.columnHeader}:not(.${gridClasses['columnHeader--sorted']}) .${gridClasses.sortIcon}`]: {
+          opacity: 0,
+          transition: theme.transitions.create(['opacity'], {
+            duration: theme.transitions.duration.shorter,
+          }),
+        },
+        [`& .${gridClasses.columnHeader}:not(.${gridClasses['columnHeader--sorted']}):hover .${gridClasses.sortIcon}`]: {
+          opacity: 0.5,
+        },
         [`& .${gridClasses.columnHeaderTitleContainer}`]: {
           display: 'flex',
           alignItems: 'center',
@@ -136,19 +134,16 @@ export const useStyles = makeStyles(
         [`& .${gridClasses['columnHeader--sortable']}`]: {
           cursor: 'pointer',
         },
-        [`& .${gridClasses['columnHeader--alignCenter']} .${gridClasses.columnHeaderTitleContainer}`]:
-          {
-            justifyContent: 'center',
-          },
-        [`& .${gridClasses['columnHeader--alignRight']} .${gridClasses.columnHeaderDraggableContainer}, & .${gridClasses['columnHeader--alignRight']} .${gridClasses.columnHeaderTitleContainer}`]:
-          {
-            flexDirection: 'row-reverse',
-          },
-        [`& .${gridClasses['columnHeader--alignCenter']} .${gridClasses.menuIcon}, & .${gridClasses['columnHeader--alignRight']} .${gridClasses.menuIcon}`]:
-          {
-            marginRight: 'auto',
-            marginLeft: -6,
-          },
+        [`& .${gridClasses['columnHeader--alignCenter']} .${gridClasses.columnHeaderTitleContainer}`]: {
+          justifyContent: 'center',
+        },
+        [`& .${gridClasses['columnHeader--alignRight']} .${gridClasses.columnHeaderDraggableContainer}, & .${gridClasses['columnHeader--alignRight']} .${gridClasses.columnHeaderTitleContainer}`]: {
+          flexDirection: 'row-reverse',
+        },
+        [`& .${gridClasses['columnHeader--alignCenter']} .${gridClasses.menuIcon}, & .${gridClasses['columnHeader--alignRight']} .${gridClasses.menuIcon}`]: {
+          marginRight: 'auto',
+          marginLeft: -6,
+        },
         [`& .${gridClasses.columnHeaderTitle}`]: {
           textOverflow: 'ellipsis',
           overflow: 'hidden',
@@ -219,7 +214,7 @@ export const useStyles = makeStyles(
           bottom: 0,
           left: 0,
           right: 0,
-          overflowX: 'auto',
+          // overflowX: 'auto',
         },
         [`& .${gridClasses.viewport}`]: {
           position: 'sticky',
@@ -323,24 +318,21 @@ export const useStyles = makeStyles(
         [`& .${gridClasses['cell--textLeft']}`]: {
           textAlign: 'left',
         },
-        [`& .${gridClasses['cell--textLeft']}.${gridClasses['cell--withRenderer']}, & .${gridClasses['cell--textLeft']}.${gridClasses['cell--editing']}`]:
-          {
-            justifyContent: 'flex-start',
-          },
+        [`& .${gridClasses['cell--textLeft']}.${gridClasses['cell--withRenderer']}, & .${gridClasses['cell--textLeft']}.${gridClasses['cell--editing']}`]: {
+          justifyContent: 'flex-start',
+        },
         [`& .${gridClasses['cell--textRight']}`]: {
           textAlign: 'right',
         },
-        [`& .${gridClasses['cell--textRight']}.${gridClasses['cell--withRenderer']}, & .${gridClasses['cell--textRight']}.${gridClasses['cell--editing']}`]:
-          {
-            justifyContent: 'flex-end',
-          },
+        [`& .${gridClasses['cell--textRight']}.${gridClasses['cell--withRenderer']}, & .${gridClasses['cell--textRight']}.${gridClasses['cell--editing']}`]: {
+          justifyContent: 'flex-end',
+        },
         [`& .${gridClasses['cell--textCenter']}`]: {
           textAlign: 'center',
         },
-        [`& .${gridClasses['cell--textCenter']}.${gridClasses['cell--withRenderer']}, & .${gridClasses['cell--textCenter']}.${gridClasses['cell--editing']}`]:
-          {
-            justifyContent: 'center',
-          },
+        [`& .${gridClasses['cell--textCenter']}.${gridClasses['cell--withRenderer']}, & .${gridClasses['cell--textCenter']}.${gridClasses['cell--editing']}`]: {
+          justifyContent: 'center',
+        },
         [`& .${gridClasses.rowCount}, & .${gridClasses.selectedRowCount}`]: {
           alignItems: 'center',
           display: 'flex',

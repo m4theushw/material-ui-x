@@ -65,8 +65,8 @@ export const GridViewport: ViewportType = React.forwardRef<HTMLDivElement, {}>(
       }
 
       const renderedRows = visibleSortedRowsAsArray.slice(
-        renderState.renderContext.firstRowIdx,
-        renderState.renderContext.lastRowIdx!,
+        Math.max(renderState.renderContext.firstRowIdx! - 6, 0),
+        Math.min(renderState.renderContext.lastRowIdx! + 6, 100000),
       );
 
       return renderedRows.map(([id, row], idx) => (
@@ -102,14 +102,14 @@ export const GridViewport: ViewportType = React.forwardRef<HTMLDivElement, {}>(
 
     return (
       <GridDataContainer>
-        <GridStickyContainer {...viewportSizes}>
-          <GridRenderingZone
-            ref={renderingZoneRef}
-            {...(containerSizes?.renderingZone || { width: 0, height: 0 })}
-          >
-            {getRowsElements()}
-          </GridRenderingZone>
-        </GridStickyContainer>
+        {/* <GridStickyContainer {...viewportSizes}> */}
+        <GridRenderingZone
+          ref={renderingZoneRef}
+          {...(containerSizes?.renderingZone || { width: 0, height: 0 })}
+        >
+          {getRowsElements()}
+        </GridRenderingZone>
+        {/* </GridStickyContainer> */}
       </GridDataContainer>
     );
   },

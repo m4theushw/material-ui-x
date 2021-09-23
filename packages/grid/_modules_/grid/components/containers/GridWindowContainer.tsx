@@ -32,11 +32,11 @@ const useUtilityClasses = (ownerState: OwnerState) => {
   return composeClasses(slots, getDataGridUtilityClass, classes);
 };
 
-const GridWindow = React.forwardRef<HTMLDivElement, GridWindowProps>(function GridWindow(
+const GridWindowContainer = React.forwardRef<HTMLDivElement, GridWindowProps>(function GridWindow(
   props,
   ref,
 ) {
-  const { className, size, ...other } = props;
+  const { className, size, children, ...other } = props;
   const apiRef = useGridApiContext();
   const rootProps = useGridRootProps();
   const headerHeight = useGridSelector(apiRef, gridDensityHeaderHeightSelector);
@@ -49,7 +49,7 @@ const GridWindow = React.forwardRef<HTMLDivElement, GridWindowProps>(function Gr
     // refs are run before effect. Waiting for an effect guarantees that
     // windowRef is resolved first.
     // Once windowRef is resolved, we can update the size of the container.
-    apiRef.current.resize();
+    // apiRef.current.resize();
   }, [apiRef]);
 
   const containerHeight = React.useMemo(() => {
@@ -63,23 +63,21 @@ const GridWindow = React.forwardRef<HTMLDivElement, GridWindowProps>(function Gr
 
   return (
     <div
-      className={classes.root}
+      className={clsx(classes.root, className)} // breaking change
       style={{
         width: size.width,
         height: containerHeight,
       }}
+      {...other}
     >
-      <div
-        ref={ref}
-        className={clsx(classes.window, className)}
-        {...other}
-        style={{ top: headerHeight, overflowY: rootProps.autoHeight ? 'hidden' : 'auto' }}
-      />
+      <div ref={ref} className={classes.window} style={{ top: headerHeight }}>
+        {children}
+      </div>
     </div>
   );
 });
 
-GridWindow.propTypes = {
+GridWindowContainer.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // | To update them edit the TypeScript types and run "yarn proptypes"  |
@@ -90,4 +88,4 @@ GridWindow.propTypes = {
   }).isRequired,
 } as any;
 
-export { GridWindow };
+export { GridWindowContainer };

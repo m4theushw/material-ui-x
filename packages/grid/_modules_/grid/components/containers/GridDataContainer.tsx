@@ -33,7 +33,8 @@ export function GridDataContainer(props: GridDataContainerProps) {
   const style: any = {
     // TODO remove min
     minWidth: dataContainerSizes?.width,
-    minHeight: dataContainerSizes?.height,
+    // minHeight: dataContainerSizes?.height,
+    minHeight: 100000 * 25,
   };
 
   return <div className={clsx(classes.root, className)} style={style} {...other} />;

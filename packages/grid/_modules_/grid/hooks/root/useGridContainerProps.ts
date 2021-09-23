@@ -224,7 +224,8 @@ export const useGridContainerProps = (
 
       // We multiply by 2 for virtualization to work with useGridVirtualization scroll system
       const renderingZonePageSize = viewportPageSize * 2;
-      const renderingZoneHeight = renderingZonePageSize * rowHeight;
+      // const renderingZoneHeight = renderingZonePageSize * rowHeight;
+      const renderingZoneHeight = rowsCount * rowHeight;
       const renderingZoneMaxScrollHeight = renderingZoneHeight - viewportSizes.height;
 
       let totalHeight = viewportMaxPages * renderingZoneMaxScrollHeight + viewportSizes.height;
@@ -323,9 +324,9 @@ export const useGridContainerProps = (
     updateStateIfChanged,
   ]);
 
-  React.useEffect(() => {
-    refreshContainerSizes();
-  }, [gridState.columns, props.hideFooter, refreshContainerSizes, visibleRowsCount]);
+  // React.useEffect(() => {
+  //   refreshContainerSizes();
+  // }, [gridState.columns, props.hideFooter, refreshContainerSizes, visibleRowsCount]);
 
   useGridApiEventHandler(apiRef, GridEvents.debouncedResize, refreshContainerSizes);
 };
