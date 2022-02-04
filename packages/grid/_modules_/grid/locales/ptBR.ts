@@ -100,6 +100,10 @@ const ptBRGrid: Partial<GridLocaleText> = {
 
   // Checkbox selection text
   checkboxSelectionHeaderName: 'Seleção',
+  checkboxSelectionSelectAllRows: 'Selecionar todas linhas',
+  checkboxSelectionUnselectAllRows: 'Deselecionar todas linhas',
+  // checkboxSelectionSelectRow: 'Select row',
+  // checkboxSelectionUnselectRow: 'Unselect row',
 
   // Boolean cell text
   booleanCellTrueLabel: 'sim',
