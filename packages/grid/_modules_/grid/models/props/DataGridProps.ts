@@ -18,6 +18,8 @@ import {
   GridRowHeightParams,
   GridRowHeightReturnValue,
   GridRowParams,
+  GridRowMargin,
+  GridRowMarginParams,
 } from '../params';
 import { GridFilterModel } from '../gridFilterModel';
 import { GridInputSelectionModel, GridSelectionModel } from '../gridSelectionModel';
@@ -398,6 +400,12 @@ export interface DataGridPropsWithoutDefaultValue extends CommonProps {
    * @returns {GridRowHeightReturnValue} The row height value. If `null` or `undefined` then the default row height is applied.
    */
   getRowHeight?: (params: GridRowHeightParams) => GridRowHeightReturnValue;
+  /**
+   * Function that allows to specify margins between rows.
+   * @param {GridRowMarginParams} params With all properties from [[GridRowMarginParams]].
+   * @returns {GridRowMargin} The row margin values.
+   */
+  getRowMargin?: (params: GridRowMarginParams) => GridRowMargin;
   /**
    * Function that returns the element to render in row detail.
    * @param {GridRowParams} params With all properties from [[GridRowParams]].

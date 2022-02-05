@@ -226,6 +226,12 @@ DataGridRaw.propTypes = {
    */
   getRowId: PropTypes.func,
   /**
+   * Function that allows to specify margins between rows.
+   * @param {GridRowMarginParams} params With all properties from [[GridRowMarginParams]].
+   * @returns {GridRowMargin} The row margin values.
+   */
+  getRowMargin: PropTypes.func,
+  /**
    * Set the height in pixel of the column headers in the grid.
    * @default 56
    */

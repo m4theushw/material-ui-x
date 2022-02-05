@@ -42,3 +42,19 @@ export interface GridRowHeightParams extends GridRowEntry {
  * The getRowHeight return value.
  */
 export type GridRowHeightReturnValue = number | null | undefined;
+
+/**
+ * Object passed as parameter in the row getRowMargin callback.
+ */
+export interface GridRowMarginParams extends GridRowEntry {
+  isFirst: boolean;
+  isLast: boolean;
+}
+
+/**
+ * The getRowHeight return value.
+ */
+export interface GridRowMargin {
+  top?: number;
+  bottom?: number;
+}

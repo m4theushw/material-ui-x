@@ -221,7 +221,7 @@ describe('<DataGrid /> - Rows', () => {
     });
   });
 
-  describe('Row height', () => {
+  describe('prop: getRowHeight', () => {
     before(function beforeHook() {
       if (isJSDOM) {
         // Need layouting
@@ -291,6 +291,56 @@ describe('<DataGrid /> - Rows', () => {
       expect(getRow(0).clientHeight).to.equal(30);
       expect(getRow(1).clientHeight).to.equal(100);
       expect(getRow(2).clientHeight).to.equal(30);
+    });
+  });
+
+  describe('prop: getRowMargin', () => {
+    const TestCase = (props: Partial<DataGridProps>) => {
+      const getRowId = (row: any) => `${row.clientId}`;
+      return (
+        <div style={{ width: 300, height: 300 }}>
+          <DataGrid {...baselineProps} {...props} getRowId={getRowId} />
+        </div>
+      );
+    };
+
+    it('should call with the correct params', () => {
+      const getRowMargin = stub().returns({});
+      render(<TestCase getRowMargin={getRowMargin} />);
+      expect(getRowMargin.args[0][0]).to.deep.equal({
+        isFirst: true,
+        isLast: false,
+        id: `${baselineProps.rows[0].clientId}`,
+        model: baselineProps.rows[0],
+      });
+      expect(getRowMargin.args[2][0]).to.deep.equal({
+        isFirst: false,
+        isLast: true,
+        id: `${baselineProps.rows[2].clientId}`,
+        model: baselineProps.rows[2],
+      });
+    });
+
+    it('should consider the margin when computing the content size', function test() {
+      if (isJSDOM) {
+        // Need layouting
+        this.skip();
+      }
+      const marginTop = 5;
+      const marginBottom = 10;
+      const rowHeight = 50;
+      render(
+        <TestCase
+          rowHeight={rowHeight}
+          getRowMargin={() => ({ top: marginTop, bottom: marginBottom })}
+        />,
+      );
+      const virtualScrollerContent = document.querySelector('.MuiDataGrid-virtualScrollerContent');
+      const expectedHeight = baselineProps.rows.length * (rowHeight + marginTop + marginBottom);
+      expect(virtualScrollerContent).toHaveInlineStyle({
+        width: '300px',
+        height: `${expectedHeight}px`,
+      });
     });
   });
 });

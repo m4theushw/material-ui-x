@@ -319,6 +319,12 @@ DataGridProRaw.propTypes = {
    */
   getRowId: PropTypes.func,
   /**
+   * Function that allows to specify margins between rows.
+   * @param {GridRowMarginParams} params With all properties from [[GridRowMarginParams]].
+   * @returns {GridRowMargin} The row margin values.
+   */
+  getRowMargin: PropTypes.func,
+  /**
    * Determines the path of a row in the tree data.
    * For instance, a row with the path ["A", "B"] is the child of the row with the path ["A"].
    * Note that all paths must contain at least one element.

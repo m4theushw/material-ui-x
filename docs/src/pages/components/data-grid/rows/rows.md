@@ -100,6 +100,10 @@ If you need some rows to have different row heights this can be achieved using t
 > <DataGridPro getRowHeight={handleGetRowHeight} />
 > ```
 
+## Row margin
+
+{{"demo": "pages/components/data-grid/rows/RowMarginGrid.js", "bg": "inline"}}
+
 ## Styling rows
 
 You can check the [styling rows](/components/data-grid/style/#styling-rows) section for more information.
