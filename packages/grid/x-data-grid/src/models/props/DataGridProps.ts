@@ -29,6 +29,7 @@ import { GridInputSelectionModel, GridSelectionModel } from '../gridSelectionMod
 import { GridInitialStateCommunity } from '../gridStateCommunity';
 import { GridSlotsComponentsProps } from '../gridSlotsComponentsProps';
 import { GridColumnVisibilityModel } from '../../hooks/features/columns/gridColumnsInterfaces';
+import { GridCellModesModel } from '../api/gridEditingApi';
 
 export interface GridExperimentalFeatures {
   /**
@@ -599,6 +600,19 @@ export interface DataGridPropsWithoutDefaultValue extends CommonProps {
    * @param {GridCallbackDetails} details Additional details for this callback.
    */
   onEditRowsModelChange?: (editRowsModel: GridEditRowsModel, details: GridCallbackDetails) => void;
+  /**
+   * Controls which cells are in "edit" mode.
+   */
+  cellModesModel?: GridCellModesModel;
+  /**
+   * Callback fired when the `cellModesModel` changes.
+   * @param {GridCellModesModel} cellModesModel Object containig which cells are in "edit" mode.
+   * @param {GridCallbackDetails} details Additional details for this callback.
+   */
+  onCellModesModelChange?: (
+    cellModesModel: GridCellModesModel,
+    details: GridCallbackDetails,
+  ) => void;
   /**
    * Set the filter model of the grid.
    */

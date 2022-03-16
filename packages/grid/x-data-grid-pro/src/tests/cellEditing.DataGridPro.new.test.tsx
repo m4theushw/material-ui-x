@@ -811,4 +811,6 @@ describe('<DataGridPro /> - Cell Editing', () => {
       });
     });
   });
+
+  describe('prop: cellsInEditMode', () => {});
 });

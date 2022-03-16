@@ -1,5 +1,5 @@
 import { GridCellMode, GridRowMode, GridCellValue } from '../gridCell';
-import { GridEditRowsModel, GridEditCellProps } from '../gridEditRowModel';
+import { GridEditRowsModel, GridEditCellProps, GridCellModes } from '../gridEditRowModel';
 import { GridRowId } from '../gridRows';
 import { GridCellParams } from '../params/gridCellParams';
 import {
@@ -8,6 +8,15 @@ import {
   GridEditCellPropsParams,
 } from '../params/gridEditCellParams';
 import { MuiBaseEvent } from '../muiEvent';
+
+export type GridCellModesModel = Record<
+  GridRowId,
+  Record<
+    string,
+    | ({ mode: GridCellModes.View } & Omit<GridStopCellEditModeParams, 'id' | 'field'>)
+    | ({ mode: GridCellModes.Edit } & Omit<GridStartCellEditModeParams, 'id' | 'field'>)
+  >
+>;
 
 /**
  * The shared methods used by the cell and row editing API.
@@ -129,7 +138,7 @@ export interface GridCellEditingApi extends GridEditingSharedApi {
 /**
  * Params passed to `apiRef.current.startCellEditMode`.
  */
-interface GridStartCellEditModeParams {
+export interface GridStartCellEditModeParams {
   /**
    * The row id.
    */
@@ -209,9 +218,8 @@ export interface GridNewCellEditingApi
    * Puts the cell corresponding to the given row id and field into view mode and updates the original row with the new value stored.
    * If `params.ignoreModifications` is `false` it will discard the modifications made.
    * @param {GridStopCellEditModeParams} params The row id and field of the cell to stop editing.
-   * @returns {Promise<boolean>} A promise which resolves with `true` if it succeeds of `false` if props are being processed or `processRowUpdate` fails.
    */
-  stopCellEditMode(params: GridStopCellEditModeParams): Promise<boolean>;
+  stopCellEditMode(params: GridStopCellEditModeParams): void;
   /**
    * Updates the value of a cell being edited.
    * Don't call this method directly, prefer `setEditCellValue`.
