@@ -57,6 +57,12 @@ describe('<DesktopDateRangePicker />', () => {
     }),
   );
 
+  it.only('test', () => {
+    expect(adapterToUse.date('2018-01-03T00:00:00.000')).toEqualDateTime(
+      adapterToUse.date('2018-01-03T00:00:00.000'),
+    );
+  });
+
   describe('validation', () => {
     it('should accept single day range', () => {
       render(
